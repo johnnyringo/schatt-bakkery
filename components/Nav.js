@@ -11,6 +11,13 @@ export default function Nav() {
                         </span>
                     </a>
                 </Link>
+                <Link href="/" passhref>
+                    <a className="cursor-pointer">
+                        <span className="text-md pt-1">
+                            About
+                        </span>
+                    </a>
+                </Link>
                 <a className="text-md font-bold cursor-pointer">
                     Cart
                 </a>
