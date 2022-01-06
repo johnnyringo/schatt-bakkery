@@ -5,14 +5,14 @@ import { CartContext } from '../context/shopContext'
 import { formatter } from '../utils/helper'
 import { XIcon } from '@heroicons/react/outline'
 
-export default function MiniCart({ cart }) {
-    const { cartOpen, setCartOpen, checkoutUrl } = useContext(CartContext)
+export default function MiniCart() {
+    const { cart, cartOpen, setCartOpen, checkoutUrl } = useContext(CartContext)
 
     let cartTotal = 0
     cart.map(item => {
         cartTotal += item?.variantPrice * item?.variantQuantity
     })
-
+    console.log('cart:', {cart})
     return (
         <Transition.Root show={cartOpen} as={Fragment}>
       <Dialog 
