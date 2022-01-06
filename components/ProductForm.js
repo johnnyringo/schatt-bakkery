@@ -28,7 +28,7 @@ export default function ProductForm({product}) {
 
     const defaultValues = {}
     product.options.map(item => {
-        defaultValues[item.name] = item.name[0]
+        defaultValues[item.name] = item.values[0]
     })
 
     const [selectedVariant, setSelectedVariant] = useState(allVariantOptions[0])

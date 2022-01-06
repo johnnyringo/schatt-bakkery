@@ -8,8 +8,7 @@ export default function ShopProvider({ children }) {
   const [cartOpen, setCartOpen] = useState(false)
   const [checkoutId, setCheckoutId] = useState('')
   const [checkoutUrl, setCheckoutUrl] = useState('')
-
-  //stores the checkout items in the cart when page is reloaded so cart doesn't empty out   
+ 
   useEffect(() => {
     if (localStorage.checkout_id) {
       const cartObject = JSON.parse(localStorage.checkout_id)
