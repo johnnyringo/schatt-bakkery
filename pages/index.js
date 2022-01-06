@@ -3,7 +3,7 @@ import { getProductsInCollection } from '../lib/shopify'
 import ProductsList from '../components/ProductsList'
 
 export default function Home({ products }) {
-  console.log(products)
+ 
   return (
     <div className="text-3xl">
       <ProductsList products={products} />

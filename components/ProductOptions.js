@@ -1,9 +1,10 @@
 import React from 'react'
 
+
 export default function ProductOptions({ name, values, selectedOptions, setOptions }) {
     return (
         <fieldset>
-            <ledgend className="text-xl font-semibold">{name}</ledgend>
+            <h2 className="text-xl font-semibold">{name}</h2>
             <div className="inline-flex items-center flex-wrap">
                 {
                     values.map(value => {

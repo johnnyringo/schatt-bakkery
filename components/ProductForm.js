@@ -1,11 +1,15 @@
 import { useState, useContext } from "react"
 import { formatter } from '../utils/helper'
 import ProductOptions from "./ProductOptions"
+import { CartContext } from "../context/shopContext"
 
 export default function ProductForm({product}) {
+
+    const { addToCart } = useContext(CartContext)
+
     const allVariantOptions = product.variants.edges?.map(variant => {
         const allOptions = {}
-
+  
         variant.node.selectedOptions.map(item => {
             allOptions[item.name] = item.value
         })
@@ -34,13 +38,25 @@ export default function ProductForm({product}) {
         setSelectedOptions(prevState => {
             return { ...prevState, [name]: value }
         })
+
+        const selection = {
+            ...selectedOptions,
+            [name]: value
+        }
+
+        allVariantOptions.map(item => {
+            if (JSON.stringify(item.options) === JSON.stringify(selection)) {
+            setSelectedVariant(item)
+            }
+        })
     }
 
     return (
         <div className="rounded-2xl p-4 shadow-lg flex flex-col w-full md:w-1/3">
             <h2 className="text-2xl font-bold">{product.title}</h2>
             <span className="pb-3">{formatter.format(product.variants.edges[0].node.priceV2.amount)} </span>
-            {product.options.map(({name, values}) => (
+            { product.options.length > 0 ?
+            product.options.map(({name, values}) => (
                 <ProductOptions 
                     key={`key-${name}`}
                     name={name}
@@ -48,10 +64,13 @@ export default function ProductForm({product}) {
                     selectedOptions={selectedOptions}
                     setOptions={setOptions}
                     
-                />
-            ))
+                /> 
+            )) : null
 }
-            <button className="bg-black rounded-lg text-white px-2 mt-4 py-3 hover:bg-gray-800">Add To Cart</button>
+            <button onClick={() => {
+                addToCart(selectedVariant)
+            }}
+                className="bg-black rounded-lg text-white px-2 mt-4 py-3 hover:bg-gray-800">Add To Cart</button>
         </div>
     )
 }
