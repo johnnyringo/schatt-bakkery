@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function ProductOptions({ name, values, selectedOptions, setOptions }) {
     return (
-        <fieldset>
+        <fieldset className="mt-3">
             <h2 className="text-xl font-semibold">{name}</h2>
             <div className="inline-flex items-center flex-wrap">
                 {

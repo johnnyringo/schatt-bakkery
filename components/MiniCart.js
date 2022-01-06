@@ -1,18 +1,19 @@
 import Image from "next/image"
 import { Fragment, useContext } from 'react'
+import Link from "next/link"
 import { Dialog, Transition } from '@headlessui/react'
 import { CartContext } from '../context/shopContext'
 import { formatter } from '../utils/helper'
 import { XIcon } from '@heroicons/react/outline'
 
 export default function MiniCart() {
-    const { cart, cartOpen, setCartOpen, checkoutUrl } = useContext(CartContext)
+    const { cart, cartOpen, setCartOpen, checkoutUrl, removeCartItem } = useContext(CartContext)
 
     let cartTotal = 0
     cart.map(item => {
         cartTotal += item?.variantPrice * item?.variantQuantity
     })
-    console.log('cart:', {cart})
+    
     return (
         <Transition.Root show={cartOpen} as={Fragment}>
       <Dialog 
@@ -61,7 +62,10 @@ export default function MiniCart() {
 
                     <div className="mt-8">
                       <div className="flow-root">
-                        <ul role="list" className="-my-6 divide-y divide-gray-200">
+                          
+                      {
+                              cart.length > 0 ?
+                              <ul role="list" className="-my-6 divide-y divide-gray-200">
                           {cart.map((product) => (
                             <li key={product.id} className="py-6 flex">
                               <div className="relative flex-shrink-0 w-24 h-24 border border-gray-200 rounded-md overflow-hidden">
@@ -77,7 +81,10 @@ export default function MiniCart() {
                                 <div>
                                   <div className="flex justify-between text-base font-medium text-gray-900">
                                     <h3>
-                                      <a href={product.href}>{product.title}</a>
+                                        <Link href={`/products/${product.handle}`}>
+                                        <a onClick={() => setCartOpen(false)}>{product.title}</a>
+                                        </Link>
+                                      
                                     </h3>
                                     <p className="ml-4">{formatter.format(product.variantPrice)}</p>
                                   </div>
@@ -87,7 +94,9 @@ export default function MiniCart() {
                                   <p className="text-gray-500">Qty {product.variantQuantity}</p>
 
                                   <div className="flex">
-                                    <button type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
+                                    <button 
+                                        onClick={() => removeCartItem(product.id)}
+                                        type="button" className="font-medium text-indigo-600 hover:text-indigo-500">
                                       Remove
                                     </button>
                                   </div>
@@ -95,7 +104,12 @@ export default function MiniCart() {
                               </div>
                             </li>
                           ))}
-                        </ul>
+                        </ul> :
+                        <div>
+                            <p>nothing in your cart</p>
+                        </div>
+          
+                          } 
                       </div>
                     </div>
                   </div>
